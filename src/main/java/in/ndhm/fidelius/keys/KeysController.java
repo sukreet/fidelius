@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.*;
 
+import static in.ndhm.fidelius.Constants.*;
+
 @RestController
 public class KeysController {
-
-    public static final String ALGORITHM = "ECDH";
-    public static final String CURVE = "curve25519";
-    public static final String PROVIDER = BouncyCastleProvider.PROVIDER_NAME;
 
     @GetMapping(value = "/keys/generate", produces = "application/json")
     public KeyMaterial generate() throws Exception {
