@@ -1,4 +1,4 @@
-package in.ndhm.fidelius;
+package in.projecteka.fidelius;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

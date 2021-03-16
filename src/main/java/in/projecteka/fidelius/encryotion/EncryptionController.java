@@ -1,4 +1,4 @@
-package in.ndhm.fidelius.encryotion;
+package in.projecteka.fidelius.encryotion;
 
 import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.crypto.digests.SHA256Digest;
@@ -26,7 +26,7 @@ import java.security.PublicKey;
 import java.security.Security;
 import java.util.Arrays;
 
-import static in.ndhm.fidelius.Constants.*;
+import static in.projecteka.fidelius.Constants.*;
 
 @RestController
 public class EncryptionController {

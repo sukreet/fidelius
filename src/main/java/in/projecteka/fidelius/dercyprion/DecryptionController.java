@@ -1,5 +1,6 @@
-package in.ndhm.fidelius.dercyprion;
+package in.projecteka.fidelius.dercyprion;
 
+import in.projecteka.fidelius.Constants;
 import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.crypto.ec.CustomNamedCurves;
@@ -22,8 +23,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
-
-import static in.ndhm.fidelius.Constants.*;
 
 @RestController
 public class DecryptionController {
@@ -77,7 +76,7 @@ public class DecryptionController {
     }
 
     private String doECDH(byte[] dataPrv, byte[] dataPub) throws Exception {
-        KeyAgreement ka = KeyAgreement.getInstance(ALGORITHM, PROVIDER);
+        KeyAgreement ka = KeyAgreement.getInstance(Constants.ALGORITHM, Constants.PROVIDER);
         ka.init(loadPrivateKey(dataPrv));
         ka.doPhase(loadPublicKeyForProjectEKAHIU(dataPub), true);
         byte[] secret = ka.generateSecret();
@@ -85,16 +84,16 @@ public class DecryptionController {
     }
 
     private PrivateKey loadPrivateKey(byte[] data) throws Exception {
-        X9ECParameters ecP = CustomNamedCurves.getByName(CURVE);
+        X9ECParameters ecP = CustomNamedCurves.getByName(Constants.CURVE);
         ECParameterSpec params = new ECParameterSpec(ecP.getCurve(), ecP.getG(),
                 ecP.getN(), ecP.getH(), ecP.getSeed());
         ECPrivateKeySpec privateKeySpec = new ECPrivateKeySpec(new BigInteger(data), params);
-        KeyFactory kf = KeyFactory.getInstance(ALGORITHM, PROVIDER);
+        KeyFactory kf = KeyFactory.getInstance(Constants.ALGORITHM, Constants.PROVIDER);
         return kf.generatePrivate(privateKeySpec);
     }
 
     private PublicKey loadPublicKeyForProjectEKAHIU(byte[] data) throws Exception {
-        KeyFactory ecKeyFac = KeyFactory.getInstance(ALGORITHM, PROVIDER);
+        KeyFactory ecKeyFac = KeyFactory.getInstance(Constants.ALGORITHM, Constants.PROVIDER);
         X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(data);
         PublicKey publicKey = ecKeyFac.generatePublic(x509EncodedKeySpec);
         return publicKey;

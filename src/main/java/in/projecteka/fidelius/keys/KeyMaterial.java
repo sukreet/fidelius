@@ -1,4 +1,4 @@
-package in.ndhm.fidelius.keys;
+package in.projecteka.fidelius.keys;
 
 public class KeyMaterial {
     private String privateKey;

@@ -1,5 +1,6 @@
-package in.ndhm.fidelius.keys;
+package in.projecteka.fidelius.keys;
 
+import in.projecteka.fidelius.Constants;
 import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.crypto.ec.CustomNamedCurves;
 import org.bouncycastle.jce.interfaces.ECPrivateKey;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.*;
-
-import static in.ndhm.fidelius.Constants.*;
 
 @RestController
 public class KeysController {
@@ -27,8 +26,8 @@ public class KeysController {
 
     private KeyPair generateKeyPair() throws NoSuchProviderException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
         Security.addProvider(new BouncyCastleProvider());
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM, PROVIDER);
-        X9ECParameters ecParameters = CustomNamedCurves.getByName(CURVE);
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(Constants.ALGORITHM, Constants.PROVIDER);
+        X9ECParameters ecParameters = CustomNamedCurves.getByName(Constants.CURVE);
         ECParameterSpec ecSpec = new ECParameterSpec(ecParameters.getCurve(), ecParameters.getG(),
                 ecParameters.getN(), ecParameters.getH(), ecParameters.getSeed());
 

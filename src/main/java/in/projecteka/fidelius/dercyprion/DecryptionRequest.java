@@ -1,4 +1,4 @@
-package in.ndhm.fidelius.dercyprion;
+package in.projecteka.fidelius.dercyprion;
 
 public class DecryptionRequest {
 

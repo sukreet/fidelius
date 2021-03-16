@@ -1,4 +1,4 @@
-package in.ndhm.fidelius.encryotion;
+package in.projecteka.fidelius.encryotion;
 
 public class EncryptionRequest {
 
