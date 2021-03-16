@@ -5,13 +5,16 @@ public class EncryptionRequest {
     private String receiverPublicKey;
     private String receiverNonce;
     private String senderPrivateKey;
+
+    private String senderPublicKey;
     private String senderNonce;
     private String plainTextData;
 
-    public EncryptionRequest(String receiverPublicKey, String receiverNonce, String senderPrivateKey, String senderNonce, String plainTextData) {
+    public EncryptionRequest(String receiverPublicKey, String receiverNonce, String senderPrivateKey, String senderPublicKey, String senderNonce, String plainTextData) {
         this.receiverPublicKey = receiverPublicKey;
         this.receiverNonce = receiverNonce;
         this.senderPrivateKey = senderPrivateKey;
+        this.senderPublicKey = senderPublicKey;
         this.senderNonce = senderNonce;
         this.plainTextData = plainTextData;
     }
@@ -46,6 +49,14 @@ public class EncryptionRequest {
 
     public void setSenderNonce(String senderNonce) {
         this.senderNonce = senderNonce;
+    }
+
+    public String getSenderPublicKey() {
+        return senderPublicKey;
+    }
+
+    public void setSenderPublicKey(String senderPublicKey) {
+        this.senderPublicKey = senderPublicKey;
     }
 
     public String getPlainTextData() {

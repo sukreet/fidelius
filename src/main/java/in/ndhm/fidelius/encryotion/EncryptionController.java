@@ -9,6 +9,7 @@ import org.bouncycastle.crypto.modes.GCMBlockCipher;
 import org.bouncycastle.crypto.params.AEADParameters;
 import org.bouncycastle.crypto.params.HKDFParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.jce.interfaces.ECPublicKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.bouncycastle.jce.spec.ECPrivateKeySpec;
@@ -36,7 +37,9 @@ public class EncryptionController {
         byte[] xorOfRandom = xorOfRandom(encryptionRequest.getSenderNonce(), encryptionRequest.getReceiverNonce());
 
         String encryptedData = encrypt(xorOfRandom, encryptionRequest.getSenderPrivateKey(), encryptionRequest.getReceiverPublicKey(), encryptionRequest.getPlainTextData());
-        return new EncryptionResponse(encryptedData);
+
+        String keyToShare = getBase64String(getEncodedPublicKeyForProjectEKAHIU(getKey(encryptionRequest.getSenderPublicKey())));
+        return new EncryptionResponse(encryptedData, keyToShare);
     }
 
     private byte[] xorOfRandom(String senderNonce, String receiverNonce) {
@@ -58,13 +61,10 @@ public class EncryptionController {
         System.out.println("<------------------- ENCRYPTION -------------------->");
         // Generating shared secret
         String sharedKey = doECDH(getBytesForBase64String(senderPrivateKey), getBytesForBase64String(receiverPublicKey));
-        System.out.println("Shared key: " + sharedKey);
 
         // Generating iv and HKDF-AES key
         byte[] iv = Arrays.copyOfRange(xorOfRandom, xorOfRandom.length - 12, xorOfRandom.length);
         byte[] aesKey = generateAesKey(xorOfRandom, sharedKey);
-        System.out.println("HKDF AES key: " + getBase64String(aesKey));
-
         // Perform Encryption
         String encryptedData = "";
         try {
@@ -128,8 +128,20 @@ public class EncryptionController {
         return aesKey;
     }
 
-
     public String getBase64String(byte[] value) {
         return new String(org.bouncycastle.util.encoders.Base64.encode(value));
     }
+
+    public byte[] getEncodedPublicKeyForProjectEKAHIU(PublicKey key) {
+        ECPublicKey ecKey = (ECPublicKey) key;
+        return ecKey.getEncoded();
+    }
+
+    public PublicKey getKey(String key) throws Exception {
+        byte[] bytesForBase64String = getBytesForBase64String(key);
+        PublicKey publicKey = loadPublicKey(bytesForBase64String);
+
+        return publicKey;
+    }
 }
+
