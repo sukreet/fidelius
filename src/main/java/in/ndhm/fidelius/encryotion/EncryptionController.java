@@ -38,7 +38,7 @@ public class EncryptionController {
 
         String encryptedData = encrypt(xorOfRandom, encryptionRequest.getSenderPrivateKey(), encryptionRequest.getReceiverPublicKey(), encryptionRequest.getPlainTextData());
 
-        String keyToShare = getBase64String(getEncodedPublicKeyForProjectEKAHIU(getKey(encryptionRequest.getSenderPublicKey())));
+        String keyToShare = getBase64String(getEncodedHIPPublicKey(getKey(encryptionRequest.getSenderPublicKey())));
         return new EncryptionResponse(encryptedData, keyToShare);
     }
 
@@ -132,7 +132,7 @@ public class EncryptionController {
         return new String(org.bouncycastle.util.encoders.Base64.encode(value));
     }
 
-    public byte[] getEncodedPublicKeyForProjectEKAHIU(PublicKey key) {
+    public byte[] getEncodedHIPPublicKey(PublicKey key) {
         ECPublicKey ecKey = (ECPublicKey) key;
         return ecKey.getEncoded();
     }
