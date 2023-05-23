@@ -10,6 +10,12 @@ In the context of projectEka, this is a reference service that does the followin
 
 
 ### How to run
+
+#### Using Docker
+- Build docker container `docker build -t fidelius .`
+- Run docker container `docker container run -p 8090:8090 fidelius` _(optionally use `-d` flag to run the container in the background)_
+
+#### Locally
 - Clone repo `git clone git@github.com:sukreet/fidelius.git`
 - build jar `./gradlew clean build `
 - Run application on port `java -Dserver.port=8090 -jar build/libs/fidelius-0.0.1-SNAPSHOT.jar 
